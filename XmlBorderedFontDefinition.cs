@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
 namespace IronXna
 {
+	/// <summary>
+	/// Object representation of the .spritefont xml file
+	/// </summary>
 	class XmlBorderedFontDefinition
 	{
 		public readonly string Filename;

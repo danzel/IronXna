@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Color = Microsoft.Xna.Framework.Color;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace IronXna
 {
@@ -56,7 +51,7 @@ namespace IronXna
 
 		internal class SubFont
 		{
-			Texture2D _texture;
+			readonly Texture2D _texture;
 			private readonly KerningDef _kerning;
 			readonly CharDetail[] _characters = new CharDetail['~' + 1];
 
@@ -107,9 +102,7 @@ namespace IronXna
 				for (int a = 0; a < text.Length; a++)
 				{
 					if (_kerning != null && a > 0)
-					{
 						position.X += _kerning.KerningFor(text[a - 1], text[a]);
-					}
 
 					RenderChar(spriteBatch, text[a], ref position, color);
 				}
@@ -134,27 +127,6 @@ namespace IronXna
 					position.X += _characters[c].XOffset;
 
 				spriteBatch.Draw(_texture, position - new Vector2(0, _characters[c].YOffset), new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color);
-				/*
-				float texX = _characters[c].X * TextureWidthPercent / Width;
-				float texX2 = texX + (_characters[c].Width * TextureWidthPercent / Width);
-				float texY = _characters[c].Y * TextureHeightPercent / Height;
-				float texY2 = texY + (_characters[c].Height * TextureHeightPercent / Height);
-
-				Vertex2DArray[0].Set(0, -_characters[c].YOffset, texX, texY);
-
-				Vertex2DArray[1].Set(0, _characters[c].Height - _characters[c].YOffset, texX, texY2);
-
-				Vertex2DArray[2].Set(_characters[c].Width, _characters[c].Height - _characters[c].YOffset, texX2, texY2);
-
-				Vertex2DArray[3].Set(_characters[c].Width, -_characters[c].YOffset, texX2, texY);
-
-				GL.BindBuffer(BufferTarget.ArrayBuffer, VboBufferId);
-				GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(4 * Vertex2D.Stride), Vertex2DArray, BufferUsageHint.StreamDraw);
-
-				GL.VertexPointer(2, VertexPointerType.Float, Vertex2D.Stride, 0);
-				GL.TexCoordPointer(2, TexCoordPointerType.Float, Vertex2D.Stride, Vector2.SizeInBytes);
-				GL.DrawArrays(BeginMode.TriangleFan, 0, 4);
-				 * */
 
 				position.X += _characters[c].XAdvance;
 			}

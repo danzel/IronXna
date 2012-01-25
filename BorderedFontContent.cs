@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace IronXna
 {
+	/// <summary>
+	/// Represents the Design Time version of a BorderedFont.
+	/// Does all of the heavy lifting to render characters out to a texture etc.
+	/// </summary>
 	[ContentSerializerRuntimeType("IronXna.BorderedFont, IronXna")]
 	class BorderedFontContent
 	{
 		public string InnerDefStr, BorderedDefStr;
-		public Bitmap InnerTexture, BorderedTexture; //FIXME
+		public Bitmap InnerTexture, BorderedTexture;
 
 		public string KerningInfo = string.Empty;
 
@@ -177,20 +178,20 @@ namespace IronXna
 
 		class DrawnCharacter
 		{
-			public Bitmap Bitmap;
+			public readonly Bitmap Bitmap;
 
 			//Position within the bitmap the char is at
-			public int X;
-			public int Y;
+			public readonly int X;
+			public readonly int Y;
 
 			//Size of the actual char sprite
-			public int Width;
-			public int Height;
+			public readonly int Width;
+			public readonly int Height;
 
 			/// <summary>
 			/// Width used to draw the character as part of a string
 			/// </summary>
-			public int XAdvance;
+			public readonly int XAdvance;
 
 			private DrawnCharacter(Bitmap bitmap, int xAdvance)
 			{
@@ -237,7 +238,7 @@ namespace IronXna
 			/// <summary>
 			/// Renders the given char grid aligned and returns it and its details.
 			/// </summary>
-			public static DrawnCharacter GetGridAlignedCharacter(Font font, char c)
+			private static DrawnCharacter GetGridAlignedCharacter(Font font, char c)
 			{
 				Bitmap b = new Bitmap(font.Height * 3, font.Height * 3);
 				SizeF fullSize;
@@ -255,13 +256,12 @@ namespace IronXna
 				}
 
 				return new DrawnCharacter(b, (int)Math.Round(fullSize.Width - 2 * spaceSize.Width));
-				//return new DrawnCharacter(b, (int)fullSize.Width - (int)(spaceSize.Width * 2));
 			}
 
 			/// <summary>
 			/// Renders the given char antialiased and returns it and its details.
 			/// </summary>
-			public static DrawnCharacter GetUnborderedCharacter(Font font, char c)
+			private static DrawnCharacter GetUnborderedCharacter(Font font, char c)
 			{
 				Bitmap b = new Bitmap(font.Height * 3, font.Height * 3);
 				SizeF fullSize;
@@ -281,13 +281,12 @@ namespace IronXna
 				}
 
 				return new DrawnCharacter(b, (int)Math.Round(fullSize.Width - 2 * spaceSize.Width));
-//				return new DrawnCharacter(b, (int)fullSize.Width - (int)(spaceSize.Width * 2));
 			}
 
 			/// <summary>
 			/// Renders the given char antialiased and returns it and its details.
 			/// </summary>
-			public static DrawnCharacter GetBorderedCharacter(Font font, char c, int borderThickness)
+			private static DrawnCharacter GetBorderedCharacter(Font font, char c, int borderThickness)
 			{
 				Bitmap b = new Bitmap(font.Height * 3, font.Height * 3);
 				SizeF fullSize;

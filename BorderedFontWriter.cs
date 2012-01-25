@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Imaging;
+﻿using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
@@ -24,7 +19,6 @@ namespace IronXna
 			output.Write(value.InnerDefStr);
 			output.Write(value.KerningInfo);
 
-			//Debugger.Launch();
 			MemoryStream temp = new MemoryStream();
 			value.BorderedTexture.Save(temp, ImageFormat.Png);
 			output.Write((int)temp.Length);
