@@ -2,8 +2,8 @@ A SpriteFont style Bordered Font renderer for Xna.
 
 Usage:
 
-Add a reference to IronXna in your code and content projects.
-In you content project, add a new SpriteFont.
+Add a reference to IronXna in your code project and a reference to IronXna.Design in your content projects.
+In your content project, add a new SpriteFont.
 Edit the Spritefont and add the following:
 
 <!--

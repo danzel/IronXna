@@ -23,12 +23,12 @@ namespace IronXna
 
 			int len = input.ReadInt32();
 			byte[] borderedTexturePngBytes = input.ReadBytes(len);
-			File.WriteAllBytes("border.png", borderedTexturePngBytes);
+			//File.WriteAllBytes("border.png", borderedTexturePngBytes);
 			var borderedTexture = Texture2DFromPngBytes(gd, borderedTexturePngBytes);
 
 			len = input.ReadInt32();
 			byte[] innerTexturePngBytes = input.ReadBytes(len);
-			File.WriteAllBytes("inner.png", innerTexturePngBytes);
+			//File.WriteAllBytes("inner.png", innerTexturePngBytes);
 			var innerTexture = Texture2DFromPngBytes(gd, innerTexturePngBytes);
 
 			return new BorderedFont(borderedTexture, innerTexture, borderedDefStr, innerDefStr, kerningInfo);
