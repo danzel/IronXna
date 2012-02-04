@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,6 +10,16 @@ namespace IronXna
 	{
 		internal SubFont Border, Inner;
 		internal KerningDef Kerning;
+
+		/// <summary>
+		/// Returns the size we will draw the inner text of the given string
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public Vector2 MeasureString(string text)
+		{
+			return Inner.MeasureString(text);
+		}
 
 		internal BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning)
 		{
@@ -44,8 +55,6 @@ namespace IronXna
 					return res;
 				return 0;
 			}
-
-
 		}
 
 
@@ -64,10 +73,7 @@ namespace IronXna
 			/// </summary>
 			public readonly int LineHeight;
 
-			public int CapitalHHeight
-			{
-				get { return _characters['H'].Height; }
-			}
+			public readonly int AboveLineSize;
 
 			public SubFont(Texture2D texture, string def, KerningDef kerning)
 			{
@@ -93,22 +99,27 @@ namespace IronXna
 					_characters[i].XAdvance = int.Parse(split[idx]); idx++;
 				}
 
+				AboveLineSize = _characters.Select(x => x.YOffset).Max();
+
 				SpaceWidth = int.Parse(split[idx]); idx++;
 				LineHeight = int.Parse(split[idx]);
 			}
 
-			public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color)
+			public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale)
 			{
+				//origin.X = -origin.X;
+				//origin -= position;
+				//position += origin;
 				for (int a = 0; a < text.Length; a++)
 				{
 					if (_kerning != null && a > 0)
-						position.X += _kerning.KerningFor(text[a - 1], text[a]);
+						origin.X -= _kerning.KerningFor(text[a - 1], text[a]);
 
-					RenderChar(spriteBatch, text[a], ref position, color);
+					RenderChar(spriteBatch, text[a], position, color, rotation, ref origin, scale);
 				}
 			}
 
-			private void RenderChar(SpriteBatch spriteBatch, char c, ref Vector2 position, Color color)
+			private void RenderChar(SpriteBatch spriteBatch, char c, Vector2 position, Color color, float rotation, ref Vector2 origin, float scale)
 			{
 
 				if (c >= 256)
@@ -116,7 +127,7 @@ namespace IronXna
 
 				if (c == ' ')
 				{
-					position.X += SpaceWidth;
+					origin.X -= SpaceWidth;
 					return;
 				}
 
@@ -124,11 +135,35 @@ namespace IronXna
 					return;
 
 				if (_characters[c].XOffset != 0)
-					position.X += _characters[c].XOffset;
+					origin.X -= _characters[c].XOffset;
 
-				spriteBatch.Draw(_texture, position - new Vector2(0, _characters[c].YOffset), new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color);
+				spriteBatch.Draw(_texture, position, new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color, rotation, origin + new Vector2(0, _characters[c].YOffset), scale, SpriteEffects.None, 1);
 
-				position.X += _characters[c].XAdvance;
+				origin.X -= _characters[c].XAdvance;
+			}
+
+			public float GetCharWidth(char c)
+			{
+				return _characters[c].XOffset + _characters[c].XAdvance;
+			}
+
+			public Vector2 MeasureString(string text)
+			{
+				int width = 0;
+				int maxYOffset = 0, maxHeightMinusYOffset = 0, maxHeight = 0;
+
+				for (int i = 0; i < text.Length; i++)
+				{
+					var c = text[i];
+
+					if (_kerning != null && i > 0)
+						width += _kerning.KerningFor(text[i - 1], text[i]);
+					width += _characters[c].XOffset + _characters[c].XAdvance;
+					maxHeight = Math.Max(maxHeight, _characters[c].Height);
+					maxYOffset = Math.Max(maxYOffset, _characters[c].YOffset);
+					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Height - _characters[c].YOffset);
+				}
+				return new Vector2(width+2, LineHeight+2);//maxYOffset + maxHeightMinusYOffset);
 			}
 		}
 

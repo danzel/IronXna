@@ -13,12 +13,17 @@ namespace IronXna
 		/// </summary>
 		public static void DrawString(this SpriteBatch spriteBatch, BorderedFont font, string text, Vector2 position, Color borderColor, Color innerColor)
 		{
-			//These changes seem to make the text end up in the same(ish) place as DrawString for SpriteFont
-			position.Y += font.Border.CapitalHHeight;
-			position.X -= font.Inner.SpaceWidth / 2;
+			DrawString(spriteBatch, font, text, position, borderColor, innerColor, 0, Vector2.Zero, 1);
+		}
 
-			font.Border.DrawString(spriteBatch, text, position, borderColor);
-			font.Inner.DrawString(spriteBatch, text, position, innerColor);
+		public static void DrawString(this SpriteBatch spriteBatch, BorderedFont font, string text, Vector2 position, Color borderColor, Color innerColor, float rotation, Vector2 origin, float scale)
+		{
+			//These changes seem to make the text end up in the same(ish) place as DrawString for SpriteFont
+			origin.Y -= font.Inner.AboveLineSize;
+			origin.X += font.Inner.SpaceWidth / 2;
+
+			font.Border.DrawString(spriteBatch, text, position, borderColor, rotation, origin, scale);
+			font.Inner.DrawString(spriteBatch, text, position, innerColor, rotation, origin, scale);
 		}
 	}
 }
