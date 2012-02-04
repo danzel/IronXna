@@ -65,7 +65,7 @@ namespace IronXna
 
 						var abW = abSize.Width - 2 * spaceSize.Width;
 
-						int diff = (int) Math.Round(abW - manualAdv);
+						int diff = (int) (abW - manualAdv);
 						if (diff != 0)
 							kerningBuilder.AppendFormat("{0}{1}{2} ", first, second, diff);
 					}
@@ -98,7 +98,7 @@ namespace IronXna
 		{
 			defStr = null;
 
-			int lineOffset = (int)Math.Round(font.Size * font.FontFamily.GetCellAscent(font.Style) / font.FontFamily.GetEmHeight(font.Style));
+			int lineOffset = (int)(font.Size * font.FontFamily.GetCellAscent(font.Style) / font.FontFamily.GetEmHeight(font.Style));
 
 			//Actual image
 			texture = generateBmp ? new Bitmap(imageSize.Width, imageSize.Height) : null;
@@ -154,7 +154,7 @@ namespace IronXna
 			for (char c = '!'; c <= '~'; c++)
 				textBuffer.Append(textData[c]);
 			//Add on space Width, Line Height
-			textBuffer.AppendFormat("{0} {1}", (int)Math.Round(g.MeasureString(" ", font).Width), font.Height);
+			textBuffer.AppendFormat("{0} {1}", (int)(g.MeasureString(" ", font).Width), font.Height);
 
 			g.Dispose();
 			g = null;
@@ -255,7 +255,7 @@ namespace IronXna
 					spaceSize = g.MeasureString(" ", font);
 				}
 
-				return new DrawnCharacter(b, (int)Math.Round(fullSize.Width - 2 * spaceSize.Width));
+				return new DrawnCharacter(b, (int)(fullSize.Width - 2 * spaceSize.Width));
 			}
 
 			/// <summary>
@@ -280,7 +280,7 @@ namespace IronXna
 					spaceSize = g.MeasureString(" ", font);
 				}
 
-				return new DrawnCharacter(b, (int)Math.Round(fullSize.Width - 2 * spaceSize.Width));
+				return new DrawnCharacter(b, (int)(fullSize.Width - 2 * spaceSize.Width));
 			}
 
 			/// <summary>
@@ -308,7 +308,7 @@ namespace IronXna
 					spaceSize = g.MeasureString(" ", font);
 				}
 
-				return new DrawnCharacter(b, (int)Math.Round(fullSize.Width - 2 * spaceSize.Width));
+				return new DrawnCharacter(b, (int)(fullSize.Width - 2 * spaceSize.Width));
 			}
 
 			/// <summary>
