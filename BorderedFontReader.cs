@@ -1,5 +1,9 @@
-﻿using System.Drawing;
+﻿#if WINDOWS
+using System.Drawing;
 using System.Drawing.Imaging;
+#elif MAC
+//TODO?
+#endif
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Content;
@@ -36,6 +40,7 @@ namespace IronXna
 
 		private Texture2D Texture2DFromPngBytes(GraphicsDevice gd, byte[] pngBytes)
 		{
+#if WINDOWS
 			Bitmap bmp = new Bitmap(new MemoryStream(pngBytes));
 
 			BitmapData bmd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
@@ -53,6 +58,9 @@ namespace IronXna
 			// unlock the bitmap data
 			bmp.UnlockBits(bmd);
 			return t2D;
+#else
+			return Texture2D.FromFile(gd, new MemoryStream(pngBytes));
+#endif
 		}
 	}
 }
