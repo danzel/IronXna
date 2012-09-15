@@ -142,8 +142,10 @@ namespace IronXna
 				origin.X -= _characters[c].XAdvance;
 			}
 
-			public float GetCharWidth(char c)
+			public int GetCharWidth(char c)
 			{
+				if (c == ' ')
+					return SpaceWidth;
 				return _characters[c].XOffset + _characters[c].XAdvance;
 			}
 
@@ -158,7 +160,7 @@ namespace IronXna
 
 					if (_kerning != null && i > 0)
 						width += _kerning.KerningFor(text[i - 1], text[i]);
-					width += _characters[c].XOffset + _characters[c].XAdvance;
+					width += GetCharWidth(c);
 					maxHeight = Math.Max(maxHeight, _characters[c].Height);
 					maxYOffset = Math.Max(maxYOffset, _characters[c].YOffset);
 					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Height - _characters[c].YOffset);
