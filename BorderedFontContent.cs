@@ -47,7 +47,12 @@ namespace IronXna
 			if (useKerning)
 			{
 				Graphics g = Graphics.FromImage(new Bitmap(1, 1));
-				var charsToDo = Enumerable.Range('0', '9' - '0').Concat(Enumerable.Range('A', 'Z' - 'A')).Concat(Enumerable.Range('a', 'z' - 'a')).ToArray();
+				var charsToDo =
+					Enumerable.Range('0', '9' - '0')
+					.Concat(Enumerable.Range('A', 'Z' - 'A'))
+					.Concat(Enumerable.Range('a', 'z' - 'a')
+					.Concat(new int[] { ':', '.', ',', '!' })).ToArray();
+
 				StringBuilder kerningBuilder = new StringBuilder();
 
 				//List<int> occurence = new List<int>(10);
