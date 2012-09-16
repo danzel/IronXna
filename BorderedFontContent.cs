@@ -73,11 +73,18 @@ namespace IronXna
 				KerningInfo = kerningBuilder.ToString();
 			}
 
+			int totalSize = 0;
+			foreach (var c in drawnCharacters.Values)
+				totalSize += (c.Bitmap.Width + (_padCharacters ? 1 : 0)) * (c.Bitmap.Height + (_padCharacters ? 1 : 0));
+
 			int[] sizes = new[] { /*16, 32, 64, */128, 256, 512, 1024, 2048 };
 			foreach (Size s in sizes.SelectMany(x => sizes.Select(y => new Size(x, y)))
 				.OrderBy(s => s.Width * s.Height)
 				.ThenBy(s => s.Width))
 			{
+				if (totalSize > s.Height * s.Width)
+					continue;
+
 				//Console.WriteLine("Trying " + s);
 				if (TryGenerateImage(font, drawnCharacters, s, out defStr, out texture))
 					break;
