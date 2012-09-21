@@ -301,7 +301,7 @@ namespace IronXna
 					GraphicsPath path = new GraphicsPath();
 					path.AddString(c.ToString(), font.FontFamily, (int)FontStyle.Regular, font.Size, new Point(font.Height, font.Height), StringFormat.GenericDefault);
 
-					Pen pen = new Pen(Color.White, borderThickness);
+					Pen pen = new Pen(Color.White, borderThickness * 2);
 					pen.LineJoin = LineJoin.Round;
 					g.DrawPath(pen, path);
 
