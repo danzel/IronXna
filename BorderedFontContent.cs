@@ -171,17 +171,6 @@ namespace IronXna
 			g.Dispose();
 			g = null;
 
-			//Apply premultiplied alpha!
-			for (int y = 0; y < texture.Height; y++)
-			{
-				for (int x = 0; x < texture.Width; x++)
-				{
-					Color c = texture.GetPixel(x, y);
-					if (c.A != 0)
-						texture.SetPixel(x, y, Color.FromArgb(c.A, c.A, c.A, c.A));
-				}
-			}
-
 			//texture.Save(DateTime.Now.Millisecond + ".png", System.Drawing.Imaging.ImageFormat.Png);
 			//File.WriteAllText(fileName + "txt", textBuffer.ToString());
 			defStr = textBuffer.ToString();

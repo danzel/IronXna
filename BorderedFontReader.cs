@@ -52,6 +52,12 @@ namespace IronXna
 			// copy bitmap data into buffer
 			Marshal.Copy(bmd.Scan0, bytes, 0, bytes.Length);
 
+			//Apply premultiplied alpha!
+			for (int i = 0; i < bufferSize; i+= 4)
+			{
+				bytes[i] = bytes[i + 1] = bytes[i + 2] = bytes[i + 3];
+			}
+
 			// copy our buffer to the texture
 			Texture2D t2D = new Texture2D(gd, bmp.Width, bmp.Height, false, SurfaceFormat.Color);
 			t2D.SetData(bytes);
