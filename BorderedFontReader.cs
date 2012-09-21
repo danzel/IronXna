@@ -65,7 +65,7 @@ namespace IronXna
 			bmp.UnlockBits(bmd);
 			return t2D;
 #else
-			return Texture2D.FromFile(gd, new MemoryStream(pngBytes));
+			return Texture2D.FromStream(gd, new MemoryStream(pngBytes));
 #endif
 		}
 	}
