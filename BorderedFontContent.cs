@@ -48,9 +48,9 @@ namespace IronXna
 			{
 				Graphics g = Graphics.FromImage(new Bitmap(1, 1));
 				var charsToDo =
-					Enumerable.Range('0', '9' - '0')
-					.Concat(Enumerable.Range('A', 'Z' - 'A'))
-					.Concat(Enumerable.Range('a', 'z' - 'a')
+					Enumerable.Range('0', '9' - '0' + 1)
+					.Concat(Enumerable.Range('A', 'Z' - 'A' + 1))
+					.Concat(Enumerable.Range('a', 'z' - 'a' + 1)
 					.Concat(new int[] { ':', '.', ',', '!' })).ToArray();
 
 				StringBuilder kerningBuilder = new StringBuilder();
