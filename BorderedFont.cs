@@ -137,7 +137,7 @@ namespace IronXna
 				if (_characters[c].XOffset != 0)
 					origin.X -= _characters[c].XOffset;
 
-				spriteBatch.Draw(_texture, position, new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color, rotation, origin + new Vector2(0, _characters[c].YOffset), scale, SpriteEffects.None, 1);
+				spriteBatch.Draw(_texture, position, new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color, rotation, origin + new Vector2(0, _characters[c].YOffset), scale, SpriteEffects.None, 0);
 
 				origin.X -= _characters[c].XAdvance;
 			}
