@@ -21,7 +21,11 @@ namespace IronXna
 			var gd = graphicsDeviceService.GraphicsDevice;
 
 			bool containsRetina = input.ReadBoolean();
-			bool useRetina = containsRetina && true; //TODO: Device is retina
+#if IOS
+			bool useRetina = containsRetina && MonoTouch.UIKit.UIScreen.MainScreen.Scale == 2; //TODO: Device is retina
+#else
+			bool useRetina = false;
+#endif
 
 			//Do the reverse of BorderedFontWriter.Write
 			string borderedDefStr = input.ReadString();

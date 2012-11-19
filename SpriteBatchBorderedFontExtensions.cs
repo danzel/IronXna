@@ -19,8 +19,8 @@ namespace IronXna
 		public static void DrawString(this SpriteBatch spriteBatch, BorderedFont font, string text, Vector2 position, Color borderColor, Color innerColor, float rotation, Vector2 origin, float scale)
 		{
 			//These changes seem to make the text end up in the same(ish) place as DrawString for SpriteFont
-			origin.Y -= font.Inner.AboveLineSize;
-			origin.X += font.Inner.SpaceWidth / 2;
+			origin.Y -= font.Inner.AboveLineSize * (font.Inner.IsRetina ? 0.5f : 1);
+			origin.X += font.Inner.SpaceWidth * (font.Inner.IsRetina ? 0.25f : 0.5f);
 
 			font.Border.DrawString(spriteBatch, text, position, borderColor, rotation, origin, scale);
 			font.Inner.DrawString(spriteBatch, text, position, innerColor, rotation, origin, scale);
@@ -37,8 +37,8 @@ namespace IronXna
 		public static void DrawString(this SpriteBatch spriteBatch, BorderedFont font, string text, Vector2 position, Color innerColor, float rotation, Vector2 origin, float scale)
 		{
 			//These changes seem to make the text end up in the same(ish) place as DrawString for SpriteFont
-			origin.Y -= font.Inner.AboveLineSize;
-			origin.X += font.Inner.SpaceWidth / 2;
+			origin.Y -= font.Inner.AboveLineSize * (font.Inner.IsRetina ? 0.5f : 1);
+			origin.X += font.Inner.SpaceWidth * (font.Inner.IsRetina ? 0.25f : 0.5f);
 
 			font.Inner.DrawString(spriteBatch, text, position, innerColor, rotation, origin, scale);
 		}

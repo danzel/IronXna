@@ -62,7 +62,7 @@ namespace IronXna
 		{
 			readonly Texture2D _texture;
 			private readonly KerningDef _kerning;
-			private readonly bool _isRetina;
+			internal readonly bool IsRetina;
 			readonly CharDetail[] _characters = new CharDetail['~' + 1];
 
 			/// <summary>
@@ -80,7 +80,7 @@ namespace IronXna
 			{
 				_texture = texture;
 				_kerning = kerning;
-				_isRetina = isRetina;
+				IsRetina = isRetina;
 
 				string[] split = def.Split(' ', '\r', '\n');
 
@@ -105,12 +105,18 @@ namespace IronXna
 
 				SpaceWidth = int.Parse(split[idx]); idx++;
 				LineHeight = int.Parse(split[idx]);
+
+				if (IsRetina)
+					LineHeight /= 2;
 			}
 
 			public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale)
 			{
-				if (_isRetina)
+				if (IsRetina)
+				{
+					origin *= 2;
 					scale *= 0.5f;
+				}
 
 				for (int a = 0; a < text.Length; a++)
 				{
@@ -166,7 +172,9 @@ namespace IronXna
 					maxYOffset = Math.Max(maxYOffset, _characters[c].YOffset);
 					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Height - _characters[c].YOffset);
 				}
-				return new Vector2(width+2, LineHeight+2);//maxYOffset + maxHeightMinusYOffset);
+				if (IsRetina)
+					return new Vector2(width/2+2, LineHeight+2);
+				return new Vector2(width+2, LineHeight+2);
 			}
 		}
 
