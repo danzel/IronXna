@@ -20,6 +20,9 @@ namespace IronXna
 				GetService(typeof(IGraphicsDeviceService));
 			var gd = graphicsDeviceService.GraphicsDevice;
 
+			bool containsRetina = input.ReadBoolean();
+			bool useRetina = containsRetina && true; //TODO: Device is retina
+
 			//Do the reverse of BorderedFontWriter.Write
 			string borderedDefStr = input.ReadString();
 			string innerDefStr = input.ReadString();
@@ -28,14 +31,32 @@ namespace IronXna
 			int len = input.ReadInt32();
 			byte[] borderedTexturePngBytes = input.ReadBytes(len);
 			//File.WriteAllBytes("border.png", borderedTexturePngBytes);
-			var borderedTexture = Texture2DFromPngBytes(gd, borderedTexturePngBytes);
+			Texture2D borderedTexture = useRetina ? null : Texture2DFromPngBytes(gd, borderedTexturePngBytes);
 
 			len = input.ReadInt32();
 			byte[] innerTexturePngBytes = input.ReadBytes(len);
 			//File.WriteAllBytes("inner.png", innerTexturePngBytes);
-			var innerTexture = Texture2DFromPngBytes(gd, innerTexturePngBytes);
+			Texture2D innerTexture = useRetina ? null : Texture2DFromPngBytes(gd, innerTexturePngBytes);
 
-			return new BorderedFont(borderedTexture, innerTexture, borderedDefStr, innerDefStr, kerningInfo);
+			if (useRetina)
+			{
+				//Do the reverse of BorderedFontWriter.Write
+				borderedDefStr = input.ReadString();
+				innerDefStr = input.ReadString();
+				kerningInfo = input.ReadString();
+
+				len = input.ReadInt32();
+				borderedTexturePngBytes = input.ReadBytes(len);
+				//File.WriteAllBytes("border.png", borderedTexturePngBytes);
+				borderedTexture = Texture2DFromPngBytes(gd, borderedTexturePngBytes);
+
+				len = input.ReadInt32();
+				innerTexturePngBytes = input.ReadBytes(len);
+				//File.WriteAllBytes("inner.png", innerTexturePngBytes);
+				innerTexture = Texture2DFromPngBytes(gd, innerTexturePngBytes);
+			}
+
+			return new BorderedFont(borderedTexture, innerTexture, borderedDefStr, innerDefStr, kerningInfo, useRetina);
 		}
 
 		private Texture2D Texture2DFromPngBytes(GraphicsDevice gd, byte[] pngBytes)

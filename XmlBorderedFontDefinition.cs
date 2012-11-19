@@ -13,7 +13,9 @@ namespace IronXna
 		
 		public readonly int Size;
 		public readonly int BorderThickness;
-		
+
+		public readonly bool IncludeRetina;
+
 		public readonly bool UseKerning;
 
 		public XmlBorderedFontDefinition(string filename)
@@ -27,6 +29,10 @@ namespace IronXna
 			Size = int.Parse(document.SelectSingleNode("/XnaContent/Asset/Size").InnerText);
 			BorderThickness = int.Parse(document.SelectSingleNode("/XnaContent/Asset/BorderThickness").InnerText);
 			UseKerning = bool.Parse(document.SelectSingleNode("/XnaContent/Asset/UseKerning").InnerText);
+
+			var includeRetinaNode = document.SelectSingleNode("/XnaContent/Asset/IncludeRetina");
+			if (includeRetinaNode != null)
+				IncludeRetina = bool.Parse(includeRetinaNode.InnerText);
 		}
 	}
 }

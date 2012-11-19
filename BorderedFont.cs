@@ -21,12 +21,12 @@ namespace IronXna
 			return Inner.MeasureString(text);
 		}
 
-		internal BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning)
+		internal BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning, bool isRetina)
 		{
 			Kerning = kerning == "" ? null : new KerningDef(kerning);
 
-			Border = new SubFont(borderedTexture, borderedDefStr, Kerning);
-			Inner = new SubFont(innerTexture, innerDefStr, Kerning);
+			Border = new SubFont(borderedTexture, borderedDefStr, Kerning, isRetina);
+			Inner = new SubFont(innerTexture, innerDefStr, Kerning, isRetina);
 		}
 
 		internal class KerningDef
@@ -62,6 +62,7 @@ namespace IronXna
 		{
 			readonly Texture2D _texture;
 			private readonly KerningDef _kerning;
+			private readonly bool _isRetina;
 			readonly CharDetail[] _characters = new CharDetail['~' + 1];
 
 			/// <summary>
@@ -75,10 +76,11 @@ namespace IronXna
 
 			public readonly int AboveLineSize;
 
-			public SubFont(Texture2D texture, string def, KerningDef kerning)
+			public SubFont(Texture2D texture, string def, KerningDef kerning, bool isRetina)
 			{
 				_texture = texture;
 				_kerning = kerning;
+				_isRetina = isRetina;
 
 				string[] split = def.Split(' ', '\r', '\n');
 
@@ -107,9 +109,9 @@ namespace IronXna
 
 			public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale)
 			{
-				//origin.X = -origin.X;
-				//origin -= position;
-				//position += origin;
+				if (_isRetina)
+					scale *= 0.5f;
+
 				for (int a = 0; a < text.Length; a++)
 				{
 					if (_kerning != null && a > 0)
@@ -121,7 +123,6 @@ namespace IronXna
 
 			private void RenderChar(SpriteBatch spriteBatch, char c, Vector2 position, Color color, float rotation, ref Vector2 origin, float scale)
 			{
-
 				if (c >= 256)
 					return;
 

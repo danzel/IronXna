@@ -19,7 +19,11 @@ namespace IronXna
 		public string InnerDefStr, BorderedDefStr;
 		public Bitmap InnerTexture, BorderedTexture;
 
+		public string RetinaInnerDefStr, RetinaBorderedDefStr;
+		public Bitmap RetinaInnerTexture, RetinaBorderedTexture;
+
 		public string KerningInfo = string.Empty;
+		public string RetinaKerningInfo = string.Empty;
 
 		public BorderedFontContent(XmlBorderedFontDefinition definition)
 		{
@@ -27,6 +31,18 @@ namespace IronXna
 
 			Generate(out BorderedDefStr, out BorderedTexture, font, definition.BorderThickness, definition.UseKerning);
 			Generate(out InnerDefStr, out InnerTexture, font, 0, definition.UseKerning);
+
+			if (definition.IncludeRetina)
+			{
+				var backup = KerningInfo;
+				font = new Font(definition.FontName, 2 * definition.Size * 96.0f / 72.0f, GraphicsUnit.Pixel);
+
+				Generate(out RetinaBorderedDefStr, out RetinaBorderedTexture, font, definition.BorderThickness * 2, definition.UseKerning);
+				Generate(out RetinaInnerDefStr, out RetinaInnerTexture, font, 0, definition.UseKerning);
+
+				RetinaKerningInfo = KerningInfo;
+				KerningInfo = backup;
+			}
 		}
 
 		private void Generate(out string defStr, out Bitmap texture, Font font, int borderThickness, bool useKerning)
