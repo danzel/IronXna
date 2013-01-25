@@ -53,6 +53,7 @@
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="SpriteBatchBorderedFontExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteBatchExtensions.cs" />
     <Compile Include="SpriteBatchPrimitiveExtensions.cs" />
     <Compile Include="SpriteBatchSpriteFontExtensions.cs" />
   </ItemGroup>
