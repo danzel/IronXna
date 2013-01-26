@@ -19,9 +19,9 @@ namespace IronXna
 			_pixel = Texture2D.FromStream(graphics, new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg==")));
 		}
 
-		public static void FillRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+		public static void FillRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color, float depth = 0)
 		{
-			spriteBatch.Draw(_pixel, rectangle, color);
+			spriteBatch.Draw(_pixel, rectangle, null, color, 0, Vector2.Zero, SpriteEffects.None, depth);
 		}
 
 		/// <summary>
