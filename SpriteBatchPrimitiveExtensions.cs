@@ -27,12 +27,12 @@ namespace IronXna
 		/// <summary>
 		/// Renders a primitive line object.
 		/// </summary>
-		public static void DrawLine(this SpriteBatch spriteBatch, Vector2 p, Vector2 p1, Color color, int width = 1)
+		public static void DrawLine(this SpriteBatch spriteBatch, Vector2 p, Vector2 p1, Color color, int width = 1, float depth = 0)
 		{
 			float distance = Vector2.Distance(p, p1);
 			float angle = (float)Math.Atan2(p1.Y - p.Y, p1.X - p.X);
 
-			spriteBatch.Draw(_pixel, p, null, color, angle, Vector2.Zero, new Vector2(distance, width), SpriteEffects.None, 0);
+			spriteBatch.Draw(_pixel, p, null, color, angle, Vector2.Zero, new Vector2(distance, width), SpriteEffects.None, depth);
 		}
 		/*
 
