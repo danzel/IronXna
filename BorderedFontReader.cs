@@ -22,7 +22,7 @@ namespace IronXna
 
 			bool containsRetina = input.ReadBoolean();
 #if IOS
-			bool useRetina = containsRetina && MonoTouch.UIKit.UIScreen.MainScreen.Scale == 2; //TODO: Device is retina
+			bool useRetina = containsRetina && MonoTouch.UIKit.UIScreen.MainScreen.Scale == 2; //Device is retina
 #else
 			bool useRetina = false;
 #endif
