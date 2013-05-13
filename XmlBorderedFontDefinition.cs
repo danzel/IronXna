@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace IronXna
 {
@@ -25,10 +26,25 @@ namespace IronXna
 			XmlDocument document = new XmlDocument();
 			document.Load(filename);
 
-			FontName = document.SelectSingleNode("/XnaContent/Asset/FontName").InnerText;
-			Size = int.Parse(document.SelectSingleNode("/XnaContent/Asset/Size").InnerText);
-			BorderThickness = int.Parse(document.SelectSingleNode("/XnaContent/Asset/BorderThickness").InnerText);
-			UseKerning = bool.Parse(document.SelectSingleNode("/XnaContent/Asset/UseKerning").InnerText);
+			var fontNameNode = document.SelectSingleNode("/XnaContent/Asset/FontName");
+			var sizeNode = document.SelectSingleNode("/XnaContent/Asset/Size");
+			var borderThicknessNode = document.SelectSingleNode("/XnaContent/Asset/BorderThickness");
+			var useKerningNode = document.SelectSingleNode("/XnaContent/Asset/UseKerning");
+
+			if (fontNameNode == null)
+				throw new Exception("No FontName Node found");
+			if (sizeNode == null)
+				throw new Exception("No Size Node found");
+			if (borderThicknessNode == null)
+				throw new Exception("No BorderThickness Node found");
+			if (useKerningNode == null)
+				throw new Exception("No UseKerning Node found");
+
+
+			FontName = fontNameNode.InnerText;
+			Size = int.Parse(sizeNode.InnerText);
+			BorderThickness = int.Parse(borderThicknessNode.InnerText);
+			UseKerning = bool.Parse(useKerningNode.InnerText);
 
 			var includeRetinaNode = document.SelectSingleNode("/XnaContent/Asset/IncludeRetina");
 			if (includeRetinaNode != null)

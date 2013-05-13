@@ -63,7 +63,7 @@ namespace IronXna
 			readonly Texture2D _texture;
 			private readonly KerningDef _kerning;
 			internal readonly bool IsRetina;
-			readonly CharDetail[] _characters = new CharDetail['~' + 1];
+			readonly Dictionary<char, CharDetail> _characters = new Dictionary<char, CharDetail>();
 
 			/// <summary>
 			/// Width of a space character
@@ -84,24 +84,34 @@ namespace IronXna
 
 				string[] split = def.Split(' ', '\r', '\n');
 
-				if (split.Length != 660)
-					throw new Exception("def isn't correct");
-
 				int idx = 0;
 
-				for (int i = '!'; i <= '~'; i++)
+				while (idx < split.Length - 2)
 				{
 					//Read this char
-					_characters[i].Width = int.Parse(split[idx]); idx++;
-					_characters[i].Height = int.Parse(split[idx]); idx++;
-					_characters[i].X = int.Parse(split[idx]); idx++;
-					_characters[i].Y = int.Parse(split[idx]); idx++;
-					_characters[i].XOffset = int.Parse(split[idx]); idx++;
-					_characters[i].YOffset = int.Parse(split[idx]); idx++;
-					_characters[i].XAdvance = int.Parse(split[idx]); idx++;
+					char i = split[idx][0]; idx++;
+
+					var width = int.Parse(split[idx]); idx++;
+					var height = int.Parse(split[idx]); idx++;
+					var x = int.Parse(split[idx]); idx++;
+					var y = int.Parse(split[idx]); idx++;
+					var xOffset = int.Parse(split[idx]); idx++;
+					var yOffset = int.Parse(split[idx]); idx++;
+					var xAdvance = int.Parse(split[idx]); idx++;
+
+					_characters[i] = new CharDetail
+						{
+							Width = width,
+							Height = height,
+							X = x,
+							Y = y,
+							XOffset = xOffset,
+							YOffset = yOffset,
+							XAdvance = xAdvance
+						};
 				}
 
-				AboveLineSize = _characters.Select(x => x.YOffset).Max();
+				AboveLineSize = _characters.Select(x => x.Value.YOffset).Max();
 
 				SpaceWidth = int.Parse(split[idx]); idx++;
 				LineHeight = int.Parse(split[idx]);

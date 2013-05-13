@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 
 namespace IronXna
@@ -50,30 +51,36 @@ namespace IronXna
 			defStr = null;
 			texture = null;
 
+			var charsToDo =
+				Enumerable.Range('!', '~' - '!' + 1)
+				//Enumerable.Range('0', '9' - '0' + 1)
+				//.Concat(Enumerable.Range('A', 'Z' - 'A' + 1))
+				//.Concat(Enumerable.Range('a', 'z' - 'a' + 1))
+				//.Concat(new int[] { ':', '.', ',', '!', '(', ')' })
+				.Where(c => c != ' ').Select(x => (char)x).ToArray();
+
 			#region Get the characters for output
 			//Store all DrawnCharacters
 			Dictionary<char, DrawnCharacter> drawnCharacters = new Dictionary<char, DrawnCharacter>();
 			//Size up each character
-			for (char c = '!'; c <= '~'; c++)
-			{
-				drawnCharacters.Add(c, DrawnCharacter.GetCharacter(font, c, borderThickness));
-			}
+			Parallel.ForEach(charsToDo, delegate(char c)
+				{
+					var drawn = DrawnCharacter.GetCharacter(font, c, borderThickness);
+
+					lock (drawnCharacters)
+						drawnCharacters.Add(c, drawn);
+				});
 			#endregion
 
 			if (useKerning)
 			{
 				Graphics g = Graphics.FromImage(new Bitmap(1, 1));
-				var charsToDo =
-					Enumerable.Range('0', '9' - '0' + 1)
-					.Concat(Enumerable.Range('A', 'Z' - 'A' + 1))
-					.Concat(Enumerable.Range('a', 'z' - 'a' + 1)
-					.Concat(new int[] { ':', '.', ',', '!', '(', ')' })).ToArray();
+
 
 				StringBuilder kerningBuilder = new StringBuilder();
 
-				//List<int> occurence = new List<int>(10);
 				var spaceSize = g.MeasureString(" ", font);
-				foreach (char first in charsToDo)
+				foreach (char first in charsToDo) //TODO: Parallel
 				{
 					foreach (char second in charsToDo)
 					{
@@ -168,7 +175,7 @@ namespace IronXna
 				// (lower case y in harlowsoliditalic.ttf has this problem)
 
 				//Output bits to the .txt
-				textData.Add(charKvp.Key, string.Format("{0} {1} {2} {3} {4} {5} {6} ", character.Width, character.Height, xPos, yPos, character.X - font.Height, lineOffset + font.Height - character.Y, character.XAdvance + font.Height - character.X));
+				textData.Add(charKvp.Key, string.Format("{0} {1} {2} {3} {4} {5} {6} {7} ", charKvp.Key, character.Width, character.Height, xPos, yPos, character.X - font.Height, lineOffset + font.Height - character.Y, character.XAdvance + font.Height - character.X));
 
 				xPos += character.Width + paddingSize;
 				if (character.Height > maxHeight)
@@ -179,8 +186,8 @@ namespace IronXna
 				return true;
 
 			//Output details on each char
-			for (char c = '!'; c <= '~'; c++)
-				textBuffer.Append(textData[c]);
+			foreach (var kvp in textData.OrderBy(x => x.Key))
+				textBuffer.Append(kvp.Value);
 			//Add on space Width, Line Height
 			textBuffer.AppendFormat("{0} {1}", (int)(g.MeasureString(" ", font).Width), font.Height);
 
