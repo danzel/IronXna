@@ -139,9 +139,6 @@ namespace IronXna
 
 			private void RenderChar(SpriteBatch spriteBatch, char c, Vector2 position, Color color, float rotation, ref Vector2 origin, float scale)
 			{
-				if (c >= 256)
-					return;
-
 				if (c == ' ')
 				{
 					origin.X -= SpaceWidth;

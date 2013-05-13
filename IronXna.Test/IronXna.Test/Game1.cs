@@ -87,7 +87,7 @@ namespace IronXna.Test
 
 			_spriteBatch.Begin();
 
-			_spriteBatch.DrawString(_font, "abcd erfds Trollin(g)!", new Vector2(20, 20), Color.Black, Color.White);
+			_spriteBatch.DrawString(_font, "abcd erfds Trollin(g)! $€£¥", new Vector2(20, 20), Color.Black, Color.White);
 
 			_spriteBatch.End();
 			// TODO: Add your drawing code here

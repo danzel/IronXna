@@ -51,14 +51,28 @@ with.
     <!--
     CharacterRegions control what letters are available in the font. Every
     character from Start to End will be built and made available for drawing. The
-    default range is from 32, (ASCII space), to 126, ('~'), covering the basic Latin
+    default range is from 33, ('!'), to 126, ('~'), covering the basic Latin
     character set. The characters are ordered according to the Unicode standard.
     See the documentation for more information.
+
+    You don't need to include the space character to be able to draw one.
     -->
     <CharacterRegions>
       <CharacterRegion>
-        <Start>&#32;</Start>
+        <Start>&#33;</Start>
         <End>&#126;</End>
+      </CharacterRegion>
+      <CharacterRegion>
+        <Start>€</Start>
+        <End>€</End>
+      </CharacterRegion>
+      <CharacterRegion>
+        <Start>£</Start>
+        <End>£</End>
+      </CharacterRegion>
+      <CharacterRegion>
+        <Start>¥</Start>
+        <End>¥</End>
       </CharacterRegion>
     </CharacterRegions>
   </Asset>

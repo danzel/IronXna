@@ -30,40 +30,32 @@ namespace IronXna
 		{
 			Font font = new Font(definition.FontName, definition.Size * 96.0f / 72.0f, GraphicsUnit.Pixel);
 
-			Generate(out BorderedDefStr, out BorderedTexture, font, definition.BorderThickness, definition.UseKerning);
-			Generate(out InnerDefStr, out InnerTexture, font, 0, definition.UseKerning);
+			Generate(out BorderedDefStr, out BorderedTexture, font, definition.BorderThickness, definition.UseKerning, definition.CharactersToInclude);
+			Generate(out InnerDefStr, out InnerTexture, font, 0, definition.UseKerning, definition.CharactersToInclude);
 
 			if (definition.IncludeRetina)
 			{
 				var backup = KerningInfo;
 				font = new Font(definition.FontName, 2 * definition.Size * 96.0f / 72.0f, GraphicsUnit.Pixel);
 
-				Generate(out RetinaBorderedDefStr, out RetinaBorderedTexture, font, definition.BorderThickness * 2, definition.UseKerning);
-				Generate(out RetinaInnerDefStr, out RetinaInnerTexture, font, 0, definition.UseKerning);
+				Generate(out RetinaBorderedDefStr, out RetinaBorderedTexture, font, definition.BorderThickness * 2, definition.UseKerning, definition.CharactersToInclude);
+				Generate(out RetinaInnerDefStr, out RetinaInnerTexture, font, 0, definition.UseKerning, definition.CharactersToInclude);
 
 				RetinaKerningInfo = KerningInfo;
 				KerningInfo = backup;
 			}
 		}
 
-		private void Generate(out string defStr, out Bitmap texture, Font font, int borderThickness, bool useKerning)
+		private void Generate(out string defStr, out Bitmap texture, Font font, int borderThickness, bool useKerning, List<char> charactersToInclude)
 		{
 			defStr = null;
 			texture = null;
-
-			var charsToDo =
-				Enumerable.Range('!', '~' - '!' + 1)
-				//Enumerable.Range('0', '9' - '0' + 1)
-				//.Concat(Enumerable.Range('A', 'Z' - 'A' + 1))
-				//.Concat(Enumerable.Range('a', 'z' - 'a' + 1))
-				//.Concat(new int[] { ':', '.', ',', '!', '(', ')' })
-				.Where(c => c != ' ').Select(x => (char)x).ToArray();
 
 			#region Get the characters for output
 			//Store all DrawnCharacters
 			Dictionary<char, DrawnCharacter> drawnCharacters = new Dictionary<char, DrawnCharacter>();
 			//Size up each character
-			Parallel.ForEach(charsToDo, delegate(char c)
+			Parallel.ForEach(charactersToInclude, delegate(char c)
 				{
 					var drawn = DrawnCharacter.GetCharacter(font, c, borderThickness);
 
@@ -80,9 +72,9 @@ namespace IronXna
 				StringBuilder kerningBuilder = new StringBuilder();
 
 				var spaceSize = g.MeasureString(" ", font);
-				foreach (char first in charsToDo) //TODO: Parallel
+				foreach (char first in charactersToInclude) //TODO: Parallel
 				{
-					foreach (char second in charsToDo)
+					foreach (char second in charactersToInclude)
 					{
 						var a = drawnCharacters[first];
 						var b = drawnCharacters[second];
