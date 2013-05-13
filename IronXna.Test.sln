@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronXna.Test", "IronXna.Test\IronXna.Test\IronXna.Test.csproj", "{29D755C1-5F58-4507-821F-7394F0D18896}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "IronXna.TestContent", "IronXna.Test\IronXna.TestContent\IronXna.TestContent.contentproj", "{F6639D43-0C0E-4862-BD9D-D4F648F97922}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronXna", "IronXna.csproj", "{D5E94B92-83F4-46E8-B8C0-A9247E048CE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronXna.Design", "IronXna.Design.csproj", "{C757B18C-6D2C-41BA-9FA3-C66A9C1A1244}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29D755C1-5F58-4507-821F-7394F0D18896}.Debug|x86.ActiveCfg = Debug|x86
+		{29D755C1-5F58-4507-821F-7394F0D18896}.Debug|x86.Build.0 = Debug|x86
+		{29D755C1-5F58-4507-821F-7394F0D18896}.Release|x86.ActiveCfg = Release|x86
+		{29D755C1-5F58-4507-821F-7394F0D18896}.Release|x86.Build.0 = Release|x86
+		{F6639D43-0C0E-4862-BD9D-D4F648F97922}.Debug|x86.ActiveCfg = Debug|x86
+		{F6639D43-0C0E-4862-BD9D-D4F648F97922}.Release|x86.ActiveCfg = Release|x86
+		{D5E94B92-83F4-46E8-B8C0-A9247E048CE6}.Debug|x86.ActiveCfg = Debug|x86
+		{D5E94B92-83F4-46E8-B8C0-A9247E048CE6}.Debug|x86.Build.0 = Debug|x86
+		{D5E94B92-83F4-46E8-B8C0-A9247E048CE6}.Release|x86.ActiveCfg = Debug|x86
+		{D5E94B92-83F4-46E8-B8C0-A9247E048CE6}.Release|x86.Build.0 = Debug|x86
+		{C757B18C-6D2C-41BA-9FA3-C66A9C1A1244}.Debug|x86.ActiveCfg = Debug|x86
+		{C757B18C-6D2C-41BA-9FA3-C66A9C1A1244}.Debug|x86.Build.0 = Debug|x86
+		{C757B18C-6D2C-41BA-9FA3-C66A9C1A1244}.Release|x86.ActiveCfg = Debug|x86
+		{C757B18C-6D2C-41BA-9FA3-C66A9C1A1244}.Release|x86.Build.0 = Debug|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
