@@ -72,7 +72,7 @@ namespace IronXna
 				StringBuilder kerningBuilder = new StringBuilder();
 
 				var spaceSize = g.MeasureString(" ", font);
-				foreach (char first in charactersToInclude) //TODO: Parallel
+				foreach (char first in charactersToInclude)
 				{
 					foreach (char second in charactersToInclude)
 					{
