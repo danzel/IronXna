@@ -172,6 +172,12 @@ namespace IronXna
 				{
 					var c = text[i];
 
+					if (c == ' ')
+					{
+						width += SpaceWidth;
+						continue;
+					}
+
 					if (_kerning != null && i > 0)
 						width += _kerning.KerningFor(text[i - 1], text[i]);
 					width += GetCharWidth(c);
