@@ -1,8 +1,6 @@
 ﻿#if WINDOWS
 using System.Drawing;
 using System.Drawing.Imaging;
-#elif MAC
-//TODO?
 #endif
 using System.IO;
 using System.Runtime.InteropServices;
