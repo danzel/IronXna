@@ -3,7 +3,7 @@
 namespace IronXna
 {
 	[ContentProcessor(DisplayName = "Bordered Text Processor")]
-	class BorderedFontProcessor : ContentProcessor<XmlBorderedFontDefinition, BorderedFontContent>
+	public class BorderedFontProcessor : ContentProcessor<XmlBorderedFontDefinition, BorderedFontContent>
 	{
 		public override BorderedFontContent Process(XmlBorderedFontDefinition input, ContentProcessorContext context)
 		{

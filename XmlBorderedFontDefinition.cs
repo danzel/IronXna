@@ -8,7 +8,7 @@ namespace IronXna
 	/// <summary>
 	/// Object representation of the .spritefont xml file
 	/// </summary>
-	class XmlBorderedFontDefinition
+	public class XmlBorderedFontDefinition
 	{
 		public readonly string Filename;
 

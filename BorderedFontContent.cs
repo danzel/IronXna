@@ -5,7 +5,6 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Content;
 
 namespace IronXna
 {
@@ -13,8 +12,7 @@ namespace IronXna
 	/// Represents the Design Time version of a BorderedFont.
 	/// Does all of the heavy lifting to render characters out to a texture etc.
 	/// </summary>
-	[ContentSerializerRuntimeType("IronXna.BorderedFont, IronXna")]
-	class BorderedFontContent
+	public class BorderedFontContent
 	{
 		public string InnerDefStr, BorderedDefStr;
 		public Bitmap InnerTexture, BorderedTexture;
