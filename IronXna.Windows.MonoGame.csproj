@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
-      <Project>{57ce6fc1-dcf2-41d2-88d9-795f614ba6de}</Project>
+      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
       <Name>MonoGame.Framework.Windows</Name>
     </ProjectReference>
   </ItemGroup>
