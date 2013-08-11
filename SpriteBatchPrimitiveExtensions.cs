@@ -12,10 +12,16 @@ namespace IronXna
 	public static class SpriteBatchPrimitiveExtensions
 	{
 		private static Texture2D _pixel;
+
 		public static void Initialize(GraphicsDevice graphics)
 		{
 			//1px x 1px white texture
+#if WINDOWS_PHONE
+			_pixel = new Texture2D(graphics, 1, 1);
+			_pixel.SetData(new [] { 0xffffffff });
+#else
 			_pixel = Texture2D.FromStream(graphics, new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg==")));
+#endif
 		}
 
 		public static void FillRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color, float depth = 0)
