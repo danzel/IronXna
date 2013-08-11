@@ -1,5 +1,8 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
@@ -15,21 +18,18 @@ namespace IronXna
 
 		protected override void Write(ContentWriter output, BorderedFontContent value)
 		{
+			bool usePng = output.TargetPlatform != (TargetPlatform)11; //MonoGame Windows Phone 8
+
 			output.Write(value.RetinaBorderedDefStr != null);
+			output.Write(usePng);
 
 			output.Write(value.BorderedDefStr);
 			output.Write(value.InnerDefStr);
 			output.Write(value.KerningInfo);
 
-			MemoryStream temp = new MemoryStream();
-			value.BorderedTexture.Save(temp, ImageFormat.Png);
-			output.Write((int)temp.Length);
-			output.Write(temp.ToArray());
+			WriteBitmap(output, value.BorderedTexture, usePng);
 
-			temp = new MemoryStream();
-			value.InnerTexture.Save(temp, ImageFormat.Png);
-			output.Write((int)temp.Length);
-			output.Write(temp.ToArray());
+			WriteBitmap(output, value.InnerTexture, usePng);
 
 			if (value.RetinaBorderedDefStr != null)
 			{
@@ -37,13 +37,39 @@ namespace IronXna
 				output.Write(value.RetinaInnerDefStr);
 				output.Write(value.RetinaKerningInfo);
 
-				temp = new MemoryStream();
-				value.RetinaBorderedTexture.Save(temp, ImageFormat.Png);
-				output.Write((int)temp.Length);
-				output.Write(temp.ToArray());
+				WriteBitmap(output, value.RetinaBorderedTexture, usePng);
 
-				temp = new MemoryStream();
-				value.RetinaInnerTexture.Save(temp, ImageFormat.Png);
+				WriteBitmap(output, value.RetinaInnerTexture, usePng);
+			}
+		}
+
+		private void WriteBitmap(ContentWriter output, Bitmap bitmap, bool usePng)
+		{
+			if (!usePng)
+			{
+				//Save raw bytes as WinPhone8 can't load pngs
+				BitmapData bmd = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
+				int bufferSize = bmd.Height * bmd.Stride;
+
+				//create data buffer 
+				byte[] bytes = new byte[bufferSize];
+
+				// copy bitmap data into buffer
+				Marshal.Copy(bmd.Scan0, bytes, 0, bytes.Length);
+
+				if (bmd.Stride != bitmap.Width * 4)
+					throw new Exception("Image width is weird");
+
+				output.Write(bitmap.Width);
+				output.Write(bitmap.Height);
+				output.Write(bytes.Length);
+				output.Write(bytes);
+			}
+			else
+			{
+				//store pngs
+				MemoryStream temp = new MemoryStream();
+				bitmap.Save(temp, ImageFormat.Png);
 				output.Write((int)temp.Length);
 				output.Write(temp.ToArray());
 			}
