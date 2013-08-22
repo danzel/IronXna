@@ -49,6 +49,8 @@
     <Compile Include="SpriteBatchExtensions.cs" />
     <Compile Include="SpriteBatchPrimitiveExtensions.cs" />
     <Compile Include="SpriteBatchSpriteFontExtensions.cs" />
+    <Compile Include="SpriteBatchSubTexture2DExtensions.cs" />
+    <Compile Include="SubTexture2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">

@@ -101,10 +101,7 @@ namespace IronXna
 
 					_characters[i] = new CharDetail
 						{
-							Width = width,
-							Height = height,
-							X = x,
-							Y = y,
+							Texture = new SubTexture2D(texture, new Rectangle(x, y, width, height)),
 							XOffset = xOffset,
 							YOffset = yOffset,
 							XAdvance = xAdvance
@@ -128,16 +125,18 @@ namespace IronXna
 					scale *= 0.5f;
 				}
 
+				var scaleVec = new Vector2(scale);
+
 				for (int a = 0; a < text.Length; a++)
 				{
 					if (_kerning != null && a > 0)
 						origin.X -= _kerning.KerningFor(text[a - 1], text[a]);
 
-					RenderChar(spriteBatch, text[a], position, color, rotation, ref origin, scale);
+					RenderChar(spriteBatch, text[a], position, color, rotation, ref origin, scaleVec);
 				}
 			}
 
-			private void RenderChar(SpriteBatch spriteBatch, char c, Vector2 position, Color color, float rotation, ref Vector2 origin, float scale)
+			private void RenderChar(SpriteBatch spriteBatch, char c, Vector2 position, Color color, float rotation, ref Vector2 origin, Vector2 scale)
 			{
 				if (c == ' ')
 				{
@@ -145,15 +144,17 @@ namespace IronXna
 					return;
 				}
 
-				if (_characters[c].Width == 0)
+				var charDetail = _characters[c];
+
+				if (charDetail.Texture.Width == 0)
 					return;
 
-				if (_characters[c].XOffset != 0)
-					origin.X -= _characters[c].XOffset;
+				if (charDetail.XOffset != 0)
+					origin.X -= charDetail.XOffset;
 
-				spriteBatch.Draw(_texture, position, new Rectangle(_characters[c].X, _characters[c].Y, _characters[c].Width, _characters[c].Height), color, rotation, origin + new Vector2(0, _characters[c].YOffset), scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(charDetail.Texture, position, origin + new Vector2(0, charDetail.YOffset), rotation, scale, color);
 
-				origin.X -= _characters[c].XAdvance;
+				origin.X -= charDetail.XAdvance;
 			}
 
 			public int GetCharWidth(char c)
@@ -181,9 +182,9 @@ namespace IronXna
 					if (_kerning != null && i > 0)
 						width += _kerning.KerningFor(text[i - 1], text[i]);
 					width += GetCharWidth(c);
-					maxHeight = Math.Max(maxHeight, _characters[c].Height);
+					maxHeight = Math.Max(maxHeight, _characters[c].Texture.Height);
 					maxYOffset = Math.Max(maxYOffset, _characters[c].YOffset);
-					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Height - _characters[c].YOffset);
+					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Texture.Height - _characters[c].YOffset);
 				}
 				if (IsRetina)
 					return new Vector2(width/2+2, LineHeight+2);
@@ -195,10 +196,7 @@ namespace IronXna
 		struct CharDetail
 		{
 			//Texture details
-			public int Y;
-			public int X;
-			public int Width;
-			public int Height;
+			public SubTexture2D Texture;
 
 			//Character position details
 			public int XOffset;
