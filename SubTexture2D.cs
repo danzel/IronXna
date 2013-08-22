@@ -14,6 +14,12 @@ namespace IronXna
 			Rectangle = rect;
 		}
 
+		public SubTexture2D(Texture2D texture)
+		{
+			Texture = texture;
+			Rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+		}
+
 		public int Width { get { return Rectangle.Width; } }
 		public int Height { get { return Rectangle.Height; } }
 	}
