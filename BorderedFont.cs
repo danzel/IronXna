@@ -152,7 +152,7 @@ namespace IronXna
 				if (charDetail.XOffset != 0)
 					origin.X -= charDetail.XOffset;
 
-				spriteBatch.Draw(charDetail.Texture, position, origin + new Vector2(0, charDetail.YOffset), rotation, scale, color);
+				spriteBatch.Draw(charDetail.Texture, position, color, rotation, origin + new Vector2(0, charDetail.YOffset), scale);
 
 				origin.X -= charDetail.XAdvance;
 			}
