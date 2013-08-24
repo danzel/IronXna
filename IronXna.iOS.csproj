@@ -45,6 +45,8 @@
     <Compile Include="SpriteBatchPrimitiveExtensions.cs" />
     <Compile Include="SpriteBatchSpriteFontExtensions.cs" />
     <Compile Include="ColorExtensions.cs" />
+    <Compile Include="SpriteBatchSubTexture2DExtensions.cs" />
+    <Compile Include="SubTexture2D.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
