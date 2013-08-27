@@ -56,6 +56,8 @@
     <Compile Include="SpriteBatchExtensions.cs" />
     <Compile Include="SpriteBatchPrimitiveExtensions.cs" />
     <Compile Include="SpriteBatchSpriteFontExtensions.cs" />
+    <Compile Include="SpriteBatchSubTexture2DExtensions.cs" />
+    <Compile Include="SubTexture2D.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.ContentPipelineExtensions.targets" />
