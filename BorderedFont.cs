@@ -21,7 +21,7 @@ namespace IronXna
 			return Inner.MeasureString(text);
 		}
 
-		internal BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning, bool isRetina)
+		public BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning, bool isRetina)
 		{
 			Kerning = kerning == "" ? null : new KerningDef(kerning);
 

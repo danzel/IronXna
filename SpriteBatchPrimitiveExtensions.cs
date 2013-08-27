@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using Color = Microsoft.Xna.Framework.Color;
+using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace IronXna
 {
@@ -20,7 +23,9 @@ namespace IronXna
 			_pixel = new Texture2D(graphics, 1, 1);
 			_pixel.SetData(new [] { 0xffffffff });
 #elif UNITY
-			_pixel = null; //TODO
+			var tex = new UnityEngine.Texture2D(1, 1, UnityEngine.TextureFormat.ARGB32, false);
+			tex.SetPixel(0, 0, UnityEngine.Color.white);
+			_pixel = new Texture2D(tex);
 #else
 			_pixel = Texture2D.FromStream(graphics, new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg==")));
 #endif
