@@ -23,8 +23,9 @@ namespace IronXna
 			_pixel = new Texture2D(graphics, 1, 1);
 			_pixel.SetData(new [] { 0xffffffff });
 #elif UNITY
-			var tex = new UnityEngine.Texture2D(1, 1, UnityEngine.TextureFormat.ARGB32, false);
+			var tex = new UnityEngine.Texture2D(1, 1, UnityEngine.TextureFormat.RGBA32, false);
 			tex.SetPixel(0, 0, UnityEngine.Color.white);
+			tex.Apply();
 			_pixel = new Texture2D(tex);
 #else
 			_pixel = Texture2D.FromStream(graphics, new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg==")));
