@@ -288,6 +288,7 @@ namespace IronXna
 					GraphicsPath path = new GraphicsPath();
 					path.AddString(c.ToString(), font.FontFamily, (int)FontStyle.Regular, font.Size, new Point(font.Height, font.Height), StringFormat.GenericDefault);
 					g.FillPath(Brushes.White, path);
+					g.FillPath(Brushes.White, path);
 
 					fullSize = g.MeasureString(" " + c + " ", font);
 					spaceSize = g.MeasureString(" ", font);
@@ -320,6 +321,7 @@ namespace IronXna
 
 					pen = new Pen(Color.White, borderThickness * 2);
 					pen.LineJoin = LineJoin.Round;
+					g.DrawPath(pen, path);
 					g.DrawPath(pen, path);
 
 					fullSize = g.MeasureString(" " + c + " ", font);
