@@ -94,7 +94,7 @@ namespace IronXna
 			foreach (var c in drawnCharacters.Values)
 				totalSize += (c.Width + (_padCharacters ? 1 : 0)) * (c.Height + (_padCharacters ? 1 : 0));
 
-			int[] sizes = new[] { /*16, 32, 64, */128, 256, 512, 1024, 2048 };
+			int[] sizes = { /*16, 32, 64, */128, 256, 512, 1024, 2048 };
 			foreach (Size s in sizes.SelectMany(x => sizes.Select(y => new Size(x, y)))
 				.OrderBy(s => s.Width * s.Height)
 				.ThenBy(s => s.Width))
@@ -313,7 +313,12 @@ namespace IronXna
 					GraphicsPath path = new GraphicsPath();
 					path.AddString(c.ToString(), font.FontFamily, (int)FontStyle.Regular, font.Size, new Point(font.Height, font.Height), StringFormat.GenericDefault);
 
-					Pen pen = new Pen(Color.White, borderThickness * 2);
+					//draw the outline twice. if we only draw it at the normal (large) size then sometimes letter with holes (lowercase e) in some fonts (bubblegum sans size 36, border 6) get weird holes
+					Pen pen = new Pen(Color.White, borderThickness);
+					pen.LineJoin = LineJoin.Round;
+					g.DrawPath(pen, path);
+
+					pen = new Pen(Color.White, borderThickness * 2);
 					pen.LineJoin = LineJoin.Round;
 					g.DrawPath(pen, path);
 

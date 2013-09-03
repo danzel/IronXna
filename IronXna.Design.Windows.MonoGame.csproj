@@ -7,7 +7,7 @@
     <ProjectGuid>{AE638F9D-D5FB-4242-8040-A45DDE335045}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IronXna.Design.MonoGame</RootNamespace>
+    <RootNamespace>IronXna</RootNamespace>
     <AssemblyName>IronXna.Design.MonoGame</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
