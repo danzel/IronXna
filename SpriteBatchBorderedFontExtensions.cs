@@ -22,8 +22,10 @@ namespace IronXna
 			origin.Y -= font.Inner.AboveLineSize * (font.Inner.IsRetina ? 0.5f : 1);
 			origin.X += font.Inner.SpaceWidth * (font.Inner.IsRetina ? 0.25f : 0.5f);
 
-			font.Border.DrawString(spriteBatch, text, position, borderColor, rotation, origin, scale);
-			font.Inner.DrawString(spriteBatch, text, position, innerColor, rotation, origin, scale);
+			if (borderColor.A != 0)
+				font.Border.DrawString(spriteBatch, text, position, borderColor, rotation, origin, scale);
+			if (innerColor.A != 0)
+				font.Inner.DrawString(spriteBatch, text, position, innerColor, rotation, origin, scale);
 		}
 
 		/// <summary>
