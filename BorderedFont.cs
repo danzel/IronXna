@@ -23,7 +23,7 @@ namespace IronXna
 
 		public BorderedFont(Texture2D borderedTexture, Texture2D innerTexture, string borderedDefStr, string innerDefStr, string kerning, bool isRetina)
 		{
-			Kerning = kerning == "" ? null : new KerningDef(kerning);
+			Kerning = kerning == "" ? null : new KerningDef(kerning, isRetina);
 
 			Border = new SubFont(borderedTexture, borderedDefStr, Kerning, isRetina);
 			Inner = new SubFont(innerTexture, innerDefStr, Kerning, isRetina);
@@ -31,26 +31,28 @@ namespace IronXna
 
 		internal class KerningDef
 		{
-			private readonly Dictionary<int, int> _kerningDef = new Dictionary<int, int>();
+			private readonly Dictionary<int, float> _kerningDef = new Dictionary<int, float>();
 
-			public KerningDef(string kerning)
+			public KerningDef(string kerning, bool isRetina)
 			{
 				var split = kerning.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 				foreach (var s in split)
 				{
 					char first = s[0];
 					char second = s[1];
-					int kern = int.Parse(s.Substring(2));
+					float kern = int.Parse(s.Substring(2));
+					if (isRetina)
+						kern *= 0.5f;
 
 					int index = first * 256 + second;
 					_kerningDef[index] = kern;
 				}
 			}
 
-			public int KerningFor(char first, char second)
+			public float KerningFor(char first, char second)
 			{
 				int index = first * 256 + second;
-				int res;
+				float res;
 				if (_kerningDef.TryGetValue(index, out res))
 					return res;
 				return 0;
@@ -60,7 +62,6 @@ namespace IronXna
 
 		internal class SubFont
 		{
-			readonly Texture2D _texture;
 			private readonly KerningDef _kerning;
 			internal readonly bool IsRetina;
 			readonly Dictionary<char, CharDetail> _characters = new Dictionary<char, CharDetail>();
@@ -68,17 +69,16 @@ namespace IronXna
 			/// <summary>
 			/// Width of a space character
 			/// </summary>
-			public readonly int SpaceWidth;
+			public readonly float SpaceWidth;
 			/// <summary>
 			/// Height of a line in pixels
 			/// </summary>
-			public readonly int LineHeight;
+			public readonly float LineHeight;
 
-			public readonly int AboveLineSize;
+			public readonly float AboveLineSize;
 
 			public SubFont(Texture2D texture, string def, KerningDef kerning, bool isRetina)
 			{
-				_texture = texture;
 				_kerning = kerning;
 				IsRetina = isRetina;
 
@@ -95,10 +95,16 @@ namespace IronXna
 					var height = int.Parse(split[idx]); idx++;
 					var x = int.Parse(split[idx]); idx++;
 					var y = int.Parse(split[idx]); idx++;
-					var xOffset = int.Parse(split[idx]); idx++;
-					var yOffset = int.Parse(split[idx]); idx++;
-					var xAdvance = int.Parse(split[idx]); idx++;
+					float xOffset = int.Parse(split[idx]); idx++;
+					float yOffset = int.Parse(split[idx]); idx++;
+					float xAdvance = int.Parse(split[idx]); idx++;
 
+					if (isRetina)
+					{
+						xOffset *= 0.5f;
+						yOffset *= 0.5f;
+						xAdvance *= 0.5f;
+					}
 					_characters[i] = new CharDetail
 						{
 							Texture = new SubTexture2D(texture, new Rectangle(x, y, width, height), isRetina),
@@ -114,17 +120,14 @@ namespace IronXna
 				LineHeight = int.Parse(split[idx]);
 
 				if (IsRetina)
-					LineHeight /= 2;
+				{
+					SpaceWidth *= 0.5f;
+					LineHeight *= 0.5f;
+				}
 			}
 
 			public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale)
 			{
-				if (IsRetina)
-				{
-					origin *= 2;
-					scale *= 0.5f;
-				}
-
 				var scaleVec = new Vector2(scale);
 
 				for (int a = 0; a < text.Length; a++)
@@ -157,7 +160,7 @@ namespace IronXna
 				origin.X -= charDetail.XAdvance;
 			}
 
-			public int GetCharWidth(char c)
+			public float GetCharWidth(char c)
 			{
 				if (c == ' ')
 					return SpaceWidth;
@@ -166,8 +169,8 @@ namespace IronXna
 
 			public Vector2 MeasureString(string text)
 			{
-				int width = 0;
-				int maxYOffset = 0, maxHeightMinusYOffset = 0, maxHeight = 0;
+				float width = 0;
+				float maxYOffset = 0, maxHeightMinusYOffset = 0, maxHeight = 0;
 
 				for (int i = 0; i < text.Length; i++)
 				{
@@ -186,8 +189,6 @@ namespace IronXna
 					maxYOffset = Math.Max(maxYOffset, _characters[c].YOffset);
 					maxHeightMinusYOffset = Math.Max(maxHeightMinusYOffset, _characters[c].Texture.Height - _characters[c].YOffset);
 				}
-				if (IsRetina)
-					return new Vector2(width/2+2, LineHeight+2);
 				return new Vector2(width+2, LineHeight+2);
 			}
 		}
@@ -199,9 +200,9 @@ namespace IronXna
 			public SubTexture2D Texture;
 
 			//Character position details
-			public int XOffset;
-			public int YOffset;
-			public int XAdvance;
+			public float XOffset;
+			public float YOffset;
+			public float XAdvance;
 		}
 	}
 }
