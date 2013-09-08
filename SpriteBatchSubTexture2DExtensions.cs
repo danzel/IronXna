@@ -11,15 +11,15 @@ namespace IronXna
 	{
 		public static void Draw(this SpriteBatch spriteBatch, SubTexture2D texture, Rectangle destinationRectangle, Color? color = null, float rotation = 0, Vector2? origin = null, SpriteEffects spriteEffects = SpriteEffects.None, float depth = 0)
 		{
-			spriteBatch.Draw(texture.Texture, destinationRectangle, texture.Rectangle, color ?? Color.White, rotation, origin ?? Vector2.Zero, spriteEffects, depth);
+			spriteBatch.Draw(texture.Texture, destinationRectangle, texture.Rectangle, color ?? Color.White, rotation, (origin ?? Vector2.Zero) * texture.ResolutionScale, spriteEffects, depth);
 		}
 		public static void Draw(this SpriteBatch spriteBatch, SubTexture2D texture, Vector2 position, Color? color = null, float rotation = 0, Vector2? origin = null, Vector2? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float depth = 0)
 		{
-			spriteBatch.Draw(texture.Texture, position, texture.Rectangle, color ?? Color.White, rotation, origin ?? Vector2.Zero, scale ?? Vector2.One, spriteEffects, depth);
+			spriteBatch.Draw(texture.Texture, position, texture.Rectangle, color ?? Color.White, rotation, (origin ?? Vector2.Zero) * texture.ResolutionScale, (scale ?? Vector2.One) * texture.ResolutionScaleInv, spriteEffects, depth);
 		}
 		public static void Draw(this SpriteBatch spriteBatch, SubTexture2D texture, Vector2 position, Color? color = null, float rotation = 0, Vector2? origin = null, float? scale = null, SpriteEffects spriteEffects = SpriteEffects.None, float depth = 0)
 		{
-			spriteBatch.Draw(texture.Texture, position, texture.Rectangle, color ?? Color.White, rotation, origin ?? Vector2.Zero, scale ?? 1, spriteEffects, depth);
+			spriteBatch.Draw(texture.Texture, position, texture.Rectangle, color ?? Color.White, rotation, (origin ?? Vector2.Zero) * texture.ResolutionScale, (scale ?? 1) * texture.ResolutionScaleInv, spriteEffects, depth);
 		}
 	}
 }

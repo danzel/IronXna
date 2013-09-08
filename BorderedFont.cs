@@ -101,7 +101,7 @@ namespace IronXna
 
 					_characters[i] = new CharDetail
 						{
-							Texture = new SubTexture2D(texture, new Rectangle(x, y, width, height)),
+							Texture = new SubTexture2D(texture, new Rectangle(x, y, width, height), isRetina),
 							XOffset = xOffset,
 							YOffset = yOffset,
 							XAdvance = xAdvance
