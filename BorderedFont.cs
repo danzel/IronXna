@@ -146,6 +146,10 @@ namespace IronXna
 					origin.X -= SpaceWidth;
 					return;
 				}
+#if !DEBUG
+				if (!_characters.ContainsKey(c)) //skip chars we dont know about
+					return;
+#endif
 
 				var charDetail = _characters[c];
 
@@ -164,6 +168,7 @@ namespace IronXna
 			{
 				if (c == ' ')
 					return SpaceWidth;
+
 				return _characters[c].XOffset + _characters[c].XAdvance;
 			}
 
@@ -181,7 +186,10 @@ namespace IronXna
 						width += SpaceWidth;
 						continue;
 					}
-
+#if !DEBUG
+					if (!_characters.ContainsKey(c)) //skip chars we dont know about
+						continue;
+#endif
 					if (_kerning != null && i > 0)
 						width += _kerning.KerningFor(text[i - 1], text[i]);
 					width += GetCharWidth(c);
