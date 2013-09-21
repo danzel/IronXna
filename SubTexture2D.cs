@@ -39,5 +39,21 @@ namespace IronXna
 
 		public readonly int Width;
 		public readonly int Height;
+
+		/// <summary>
+		/// Create a sub-sub texture from the given bounds
+		/// </summary>
+		public SubTexture2D Clip(int x, int y, int width, int height)
+		{
+			if (IsDoubleResolution)//todo: test this
+			{
+				x *= 2;
+				y *= y;
+				width *= 2;
+				height *= 2;
+			}
+
+			return new SubTexture2D(Texture, new Rectangle(Rectangle.X + x, Rectangle.Y + y, width, height), IsDoubleResolution);
+		}
 	}
 }
