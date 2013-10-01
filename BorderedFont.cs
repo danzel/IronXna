@@ -59,6 +59,11 @@ namespace IronXna
 			}
 		}
 
+		public float LineHeight
+		{
+			get { return Inner.LineHeight; }
+		}
+
 
 		internal class SubFont
 		{
