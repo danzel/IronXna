@@ -12,6 +12,8 @@ namespace IronXna
 {
 	public class BorderedFontReader : ContentTypeReader<BorderedFont>
 	{
+		public static bool ForceUseRetinaFont;
+
 		protected override BorderedFont Read(ContentReader input, BorderedFont existingInstance)
 		{
 			IGraphicsDeviceService graphicsDeviceService =
@@ -24,7 +26,7 @@ namespace IronXna
 #if IOS
 			bool useRetina = containsRetina && MonoTouch.UIKit.UIScreen.MainScreen.Scale == 2; //Device is retina
 #else
-			bool useRetina = false;
+			bool useRetina = ForceUseRetinaFont;
 #endif
 			Texture2D borderedTexture = null, innerTexture = null;
 			int width, height, len;
