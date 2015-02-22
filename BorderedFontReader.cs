@@ -24,7 +24,7 @@ namespace IronXna
 			bool containsRetina = input.ReadBoolean();
 			bool hasPng = input.ReadBoolean();
 #if IOS
-			bool useRetina = containsRetina && MonoTouch.UIKit.UIScreen.MainScreen.Scale == 2; //Device is retina
+			bool useRetina = containsRetina && UIKit.UIScreen.MainScreen.Scale == 2; //Device is retina
 #else
 			bool useRetina = ForceUseRetinaFont;
 #endif
