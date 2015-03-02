@@ -48,7 +48,7 @@ namespace IronXna
 			if (IsDoubleResolution)//todo: test this
 			{
 				x *= 2;
-				y *= y;
+				y *= 2;
 				width *= 2;
 				height *= 2;
 			}
