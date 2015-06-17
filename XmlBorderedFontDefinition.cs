@@ -19,6 +19,8 @@ namespace IronXna
 
 		public readonly bool IncludeRetina;
 
+		public readonly float SpaceMultiplier;
+
 		public readonly bool UseKerning;
 
 		public List<char> CharactersToInclude = new List<char>();
@@ -51,6 +53,12 @@ namespace IronXna
 			Size = int.Parse(sizeNode.InnerText);
 			BorderThickness = int.Parse(borderThicknessNode.InnerText);
 			UseKerning = bool.Parse(useKerningNode.InnerText);
+
+			var spaceMultiplier = document.SelectSingleNode("/XnaContent/Asset/SpaceMultiplier");
+			if (spaceMultiplier == null)
+				SpaceMultiplier = 1;
+			else
+				SpaceMultiplier = float.Parse(spaceMultiplier.InnerText);
 
 			var includeRetinaNode = document.SelectSingleNode("/XnaContent/Asset/IncludeRetina");
 			if (includeRetinaNode != null)

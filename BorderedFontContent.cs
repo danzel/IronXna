@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -23,9 +24,13 @@ namespace IronXna
 		public string KerningInfo = string.Empty;
 		public string RetinaKerningInfo = string.Empty;
 
+		private readonly float _spaceMultiplier;
+
 		public BorderedFontContent(XmlBorderedFontDefinition definition)
 		{
 			Font font = new Font(definition.FontName, definition.Size * 96.0f / 72.0f, GraphicsUnit.Pixel);
+
+			_spaceMultiplier = definition.SpaceMultiplier;
 
 			Generate(out BorderedDefStr, out BorderedTexture, font, definition.BorderThickness, definition.UseKerning, definition.CharactersToInclude);
 			Generate(out InnerDefStr, out InnerTexture, font, 0, definition.UseKerning, definition.CharactersToInclude);
@@ -178,7 +183,7 @@ namespace IronXna
 			foreach (var kvp in textData.OrderBy(x => x.Key))
 				textBuffer.Append(kvp.Value);
 			//Add on space Width, Line Height
-			textBuffer.AppendFormat("{0} {1}", (int)(g.MeasureString(" ", font).Width), font.Height);
+			textBuffer.AppendFormat("{0} {1}", (int)Math.Ceiling(g.MeasureString(" ", font).Width * _spaceMultiplier), font.Height);
 
 			g.Dispose();
 			g = null;
