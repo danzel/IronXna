@@ -15,6 +15,14 @@ Edit the Spritefont and add the following:
     -->
     <IncludeRetina>false</IncludeRetina>
 
+Optionally add:
+	<!--
+	SpacingMultiplier is a float value, the measured width of a space is multiplied by this.
+	Use it if there isn't enough space between words.
+	-->
+	<SpaceMultiplier>1.3</SpaceMultiplier>
+
+
 Choose the spritefont in the solution explorer and change the "Content Importer" and "Content Processor" to "Bordered Font Importer" / "Bordered Text Processor" (TODO: Rename these to be the same)
 
 Now load it with:
