@@ -14,14 +14,14 @@ namespace IronXna
 	/// </summary>
 	public static class SpriteBatchPrimitiveExtensions
 	{
-		private static SubTexture2D _pixel;
+		public static SubTexture2D WhitePixel;
 
 		public static void Initialize(GraphicsDevice graphics, SubTexture2D whitePixel = null)
 		{
 			//1px x 1px white texture
 			if (whitePixel != null)
 			{
-				_pixel = whitePixel;
+				WhitePixel = whitePixel;
 			}
 			else
 			{
@@ -37,13 +37,13 @@ namespace IronXna
 #else
 				pixel = Texture2D.FromStream(graphics, new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg==")));
 #endif
-				_pixel = new SubTexture2D(pixel);
+				WhitePixel = new SubTexture2D(pixel);
 			}
 		}
 
 		public static void FillRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color, float depth = 0)
 		{
-			spriteBatch.Draw(_pixel, rectangle, color, 0, Vector2.Zero, SpriteEffects.None, depth);
+			spriteBatch.Draw(WhitePixel, rectangle, color, 0, Vector2.Zero, SpriteEffects.None, depth);
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace IronXna
 			float distance = Vector2.Distance(p, p1);
 			float angle = (float)Math.Atan2(p1.Y - p.Y, p1.X - p.X);
 
-			spriteBatch.Draw(_pixel, p, color, angle, Vector2.Zero, new Vector2(distance, width), SpriteEffects.None, depth);
+			spriteBatch.Draw(WhitePixel, p, color, angle, Vector2.Zero, new Vector2(distance, width), SpriteEffects.None, depth);
 		}
 
 		/// <summary>
