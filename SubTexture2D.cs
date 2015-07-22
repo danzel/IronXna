@@ -45,7 +45,7 @@ namespace IronXna
 		/// </summary>
 		public SubTexture2D Clip(int x, int y, int width, int height)
 		{
-			if (IsDoubleResolution)//todo: test this
+			if (IsDoubleResolution)
 			{
 				x *= 2;
 				y *= 2;
