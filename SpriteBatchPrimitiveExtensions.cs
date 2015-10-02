@@ -26,12 +26,7 @@ namespace IronXna
 			else
 			{
 				Texture2D pixel;
-#if UNITY
-				var tex = new UnityEngine.Texture2D(1, 1, UnityEngine.TextureFormat.RGBA32, false);
-				tex.SetPixel(0, 0, UnityEngine.Color.white);
-				tex.Apply();
-				pixel = new Texture2D(tex);
-#elif WINDOWS_PHONE
+#if WINDOWS_PHONE
 				pixel = new Texture2D(graphics, 1, 1);
 				pixel.SetData(new [] { 0xffffffff });
 #else
